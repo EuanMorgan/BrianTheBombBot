@@ -5,9 +5,8 @@ import playsound
 import os
 import random
 from gtts import gTTS
-digit = ""
+check = {}
 r = sr.Recognizer()
-a = True
 
 
 # This is a voice recognition app built to solve the puzzles in the game Keep talking and nobody explodes
@@ -16,19 +15,20 @@ a = True
 
 def record_audio():
     with sr.Microphone() as source:
-        r.energy_threshold = 2500
+        r.energy_threshold = 4000
         audio = r.listen(source)
 
         voice_data = ''
         try:
             voice_data = r.recognize_google(audio)
         except sr.UnknownValueError:
-            speak("Sorry, didn't get that")
+            # speak("Sorry, didn't get that")
+            pass
         except sr.RequestError:
             speak("Sorry , my speech service is down")
         if voice_data == 'sex':  # unfortunate mishearing fix
             voice_data = 'six'
-        return voice_data
+        return voice_data.lower()
 
 
 def speak(audio_string):
@@ -42,34 +42,81 @@ def speak(audio_string):
 
 
 def respond(voice_data):
+    voice_data = voice_data.lower()
     if 'exit' in voice_data or 'except' in voice_data:
         exit()
     if 'oh my god' in voice_data:
         speak('Its not my fault')
-    if 'wires' in voice_data:
-        defuse_wires()
+    if 'wires' in voice_data or 'why is' in voice_data:
+        voice_data = voice_data.split()
+        defuse_wires(voice_data[1:])
     if 'hello' in voice_data:
         speak('hello, how are you?')
-    if 'digit' in voice_data:
-        speak('go')
-        d = record_audio()
-        global digit
-        digit = d
+    if 'check' in voice_data or 'jack' in voice_data:
+        speak('ready')
+        global check
+        voice_data = record_audio()
+
+        voice_data = voice_data.split()
+
+        try:
+            for i in range(0, len(voice_data) - 1):
+                if i % 2 == 0:
+                    check[voice_data[i]] = voice_data[i+1]
+
+            check['digit'] = stringtoint(check['digit'])
+            check['batteries'] = int(stringtoint(check['batteries']))
+            print(check)
+        except:
+            speak('sorry try again')
+
     if 'test' in voice_data:
         speak('roger')
+    if 'thank you' in voice_data:
+        speak('im a slave')
+    if 'we did it' in voice_data:
+        speak('excuse me i did all the hard work')
+    if 'button' in voice_data or 'butter' in voice_data:
+        voice_data = voice_data.split()
+        voice_data = voice_data[1:]
+        if len(voice_data) > 2:
+            if voice_data[2] == "boat":
+                voice_data[1] == "abort"
+        if voice_data[0] == "read":
+            voice_data[0] = "red"
+        print(voice_data)
+        defuse_button(voice_data)
 
 
-def defuse_wires():
+def stringtoint(d):
+    if d == 'zero':
+        d = 0
+    elif d == 'one':
+        d = 1
+    elif d == 'two' or d == 'to' or d == 'too':
+        d = 2
+    elif d == 'three':
+        d = 3
+    elif d == 'four' or d == 'for':
+        d = 4
+    elif d == 'five':
+        d = 5
+    elif d == 'six' or d == 'sex':
+        d = 6
+    elif d == 'seven':
+        d = 7
+    elif d == 'eight':
+        d = 8
+    elif d == 'nine':
+        d = 9
+    return d
+
+
+digit = 0
+
+
+def defuse_wires(colors):
     global digit
-    colors = []
-    while len(colors) == 0:
-        try:
-            speak('name wires')
-            voice_data = record_audio()
-            colors = voice_data.split()
-            speak(voice_data)
-        except:
-            pass
 
     if len(colors) == 3:
         if 'red' not in colors:
@@ -111,10 +158,51 @@ def defuse_wires():
             speak('cut the fourth wire')
 
 
+def defuse_button(button):
+    # try:
+    color = button[0]
+    word = button[1]
+    hold = False
+
+    if color == "read":
+        color = "red"
+    if word == "a":  # sometimes abort heard as a boat
+        word = "abort"
+
+    if color == "blue" and word == "abort":
+        hold = True
+    elif (check['batteries'] > 1) and (word == "detonate"):
+        speak('press and immediately release')
+    elif (color == "white") and (check['car'] == "yes"):
+        hold = True
+    elif (check['batteries'] > 2) and (check['freak'] == "yes"):
+        speak('press and immediately release')
+    elif color == "yellow":
+        hold = True
+    elif (color == "red") and (word == "hold"):
+        speak("press and immediately release")
+    else:
+        hold = True
+    if hold:
+        speak('hold, color?')
+        strip = record_audio()
+
+        if strip == "blue":
+            speak('countdown 4')
+        elif strip == "white":
+            speak('countdown 1')
+        elif strip == "yellow":
+            speak('countdown 5')
+        else:
+            speak('countdown 1')
+# except:
+    # speak('try again')
+
+
 time.sleep(0.5)
 speak('How can I help you?')
 
-while a:
+while True:
     print(digit)
     print("hello")
     voice_data = record_audio()
