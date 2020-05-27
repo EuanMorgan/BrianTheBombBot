@@ -9,12 +9,14 @@ digit = ""
 r = sr.Recognizer()
 a = True
 
+
 # This is a voice recognition app built to solve the puzzles in the game Keep talking and nobody explodes
 # https://www.bombmanual.com/print/KeepTalkingAndNobodyExplodes-BombDefusalManual-v1.pdf
 
 
 def record_audio():
     with sr.Microphone() as source:
+        r.energy_threshold = 2500
         audio = r.listen(source)
 
         voice_data = ''
@@ -40,7 +42,7 @@ def speak(audio_string):
 
 
 def respond(voice_data):
-    if 'exit' in voice_data:
+    if 'exit' in voice_data or 'except' in voice_data:
         exit()
     if 'oh my god' in voice_data:
         speak('Its not my fault')
@@ -53,6 +55,8 @@ def respond(voice_data):
         d = record_audio()
         global digit
         digit = d
+    if 'test' in voice_data:
+        speak('roger')
 
 
 def defuse_wires():
@@ -70,7 +74,7 @@ def defuse_wires():
     if len(colors) == 3:
         if 'red' not in colors:
             speak('Cut the second wire')
-        elif colors[2] == 'white':
+        elif colors[-1] == 'white':
             speak('Cut the last wire')
         elif colors.count('blue') > 1:
             speak('cut the last blue wire')
@@ -79,7 +83,7 @@ def defuse_wires():
     elif len(colors) == 4:
         if (colors.count('red') > 1) and (int(digit) % 2 == 1):
             speak('cut the last red wire')
-        elif (colors[3] == 'yellow') & ('red' not in colors):
+        elif (colors[-1] == 'yellow') and ('red' not in colors):
             speak('cut the first wire')
         elif colors.count('blue') == 1:
             speak('cut the first wire')
@@ -87,6 +91,24 @@ def defuse_wires():
             speak('cut the last wire')
         else:
             speak('cut the second wire')
+    elif len(colors) == 5:
+        if (colors[-1] == "black") and (int(digit) % 2 == 1):
+            speak('cut the fourth wire')
+        elif (colors.count('red') == 1) and (colors.count('yellow') > 1):
+            speak('cut the first wire')
+        elif colors.count('black') == 0:
+            speak('cut the second wire')
+        else:
+            speak('cut the first wire')
+    elif len(colors) == 6:
+        if (colors.count('yellow') == 0) and (int(digit) % 2 == 1):
+            speak('cut the third wire')
+        elif (colors.count('yellow') == 1) and (colors.count('white') > 1):
+            speak('cut the fourth wire')
+        elif colors.count('red') == 0:
+            speak('cut the last wire')
+        else:
+            speak('cut the fourth wire')
 
 
 time.sleep(0.5)
