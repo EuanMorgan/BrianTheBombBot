@@ -15,10 +15,15 @@ Ready
 
 Say:
 digit [0-9] - this is the last digit of the serial number
+
 batteries [0-9] - how many individual batteries are on the bomb
+
 vowel [yes/no] - if the serial number contains a vowel
+
 parallel [yes/no] - if the bomb has a parallel port
+
 car [yes/no] - if there is a lit indicator labelled 'CAR'
+
 freak [yes/no] - if there is a lit indicator labelled 'FRK'
 
 example:
