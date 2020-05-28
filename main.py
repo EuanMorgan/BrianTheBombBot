@@ -4,6 +4,7 @@ from time import ctime
 from defuse.wires import defuse_wires
 from defuse.button import defuse_button
 from defuse.keypad import defuse_keypad
+from defuse.password import defuse_password
 check = {}
 
 # This is a voice recognition app built to solve the puzzles in the game Keep talking and nobody explodes
@@ -18,7 +19,8 @@ def respond(voice_data):
         voice_data = speech.record_audio()
 
         voice_data = voice_data.split()
-
+        if 'foul' in voice_data:
+            voice_data[voice_data.index('foul')] = 'vowel'
         try:
             for i in range(0, len(voice_data) - 1):
                 if i % 2 == 0:
@@ -30,8 +32,14 @@ def respond(voice_data):
         except:
             speech.speak('sorry try again')
     if 'wires' in voice_data or 'why is' in voice_data:
+        print("hello")
         voice_data = voice_data.split()
-        defuse_wires(voice_data[1:], check)
+        if 'bread' in voice_data:
+            voice_data[voice_data.index('bread')] = "red"
+        if 'why' in voice_data and 'is' in voice_data:
+            defuse_wires(voice_data[2:], check)
+        else:
+            defuse_wires(voice_data[1:], check)
     if 'button' in voice_data or 'butter' in voice_data:
         voice_data = voice_data.split()
         voice_data = voice_data[1:]
@@ -52,6 +60,10 @@ def respond(voice_data):
                 voice_data[voice_data.index('6')] = "six"
             if('ballooned' in voice_data):
                 voice_data[voice_data.index('ballooned')] = "balloon"
+            if "lampeter" in voice_data:
+                voice_data[voice_data.index('lampeter')] = "lambda"
+            if "lander" in voice_data:
+                voice_data[voice_data.index('lander')] = "lambda"
             if len(voice_data) != len(set(voice_data)):
                 speech.speak('sorry, try again')
             else:
@@ -59,6 +71,8 @@ def respond(voice_data):
                 defuse_keypad(voice_data,check)
         else:
             speech.speak('sorry, try again')
+    if 'password' in voice_data:
+        defuse_password()
     if 'exit' in voice_data or 'except' in voice_data:
         exit()
     if 'oh my god' in voice_data:
