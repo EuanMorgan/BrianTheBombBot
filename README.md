@@ -1,10 +1,12 @@
 Brian the Bomb Bot is a speech recognition app written in Python to solve all the puzzles in the game 'Keep Talking and Nobody Explodes'
 
-USAGE:
-When the game first loads, you should give Brian all the data about the bomb that he needs
+Dependencies:
+speechrecognition, pyaudio, gTTS
 
 
 INITIAL BOMB CHECK
+
+When the game first loads, you should give Brian all the information he needs about the bomb.
 
 Say:
 check
@@ -14,10 +16,15 @@ Ready
 
 Say:
 digit [0-9] - this is the last digit of the serial number
+
 batteries [0-9] - how many individual batteries are on the bomb
+
 vowel [yes/no] - if the serial number contains a vowel
+
 parallel [yes/no] - if the bomb has a parallel port
+
 car [yes/no] - if there is a lit indicator labelled 'CAR'
+
 freak [yes/no] - if there is a lit indicator labelled 'FRK'
 
 example:
