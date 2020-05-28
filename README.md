@@ -1,10 +1,11 @@
 Brian the Bomb Bot is a speech recognition app written in Python to solve all the puzzles in the game 'Keep Talking and Nobody Explodes'
 
-USAGE:
-When the game first loads, you should give Brian all the data about the bomb that he needs
+
 
 
 INITIAL BOMB CHECK
+
+When the game first loads, you should give Brian all the information he needs about the bomb.
 
 Say:
 check
