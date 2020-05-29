@@ -72,3 +72,16 @@ Brian responds with the order you should press them
 Example:
 you: keypad spaceship balloon lambda pyramid
 brian: balloon pyramid lambda spaceship
+
+
+ON THE SUBJECT OF THE PASSWORD
+
+Say: password
+Brian responds: column name
+
+Say all the letters in the column in phonetic alphabet form
+
+Example
+you: password
+brian: column 1
+you: sierra, echo, delta, foxtrot, alpha, zulu

@@ -15,11 +15,11 @@ def defuse_button(button,check):
 
     if color == "blue" and word == "abort":
         hold = True
-    elif (check['batteries'] > 1) and (word == "detonate"):
+    elif (int(check['batteries']) > 1) and (word == "detonate"):
         speech.speak('press and immediately release')
     elif (color == "white") and (check['car'] == "yes"):
         hold = True
-    elif (check['batteries'] > 2) and (check['freak'] == "yes"):
+    elif (int(check['batteries']) > 2) and (check['freak'] == "yes"):
         speech.speak('press and immediately release')
     elif color == "yellow":
         hold = True
